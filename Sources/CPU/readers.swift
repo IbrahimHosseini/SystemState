@@ -5,7 +5,7 @@
 //  Created by Ibrahim on 3/12/24.
 //
 
-import Cocoa
+import AppKit
 import Kit
 import SMC
 

@@ -5,13 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "SystemState",
+    platforms: [.macOS(.v12)],
+    products: [
+        .library(name: "systemstate", targets: ["systemstate"]),
+    ],
     targets: [
         
-        .executableTarget(
-            name: "SystemState",
+        // MARK: - System State
+        .target(
+            name: "systemstate",
             dependencies: ["CPU", "RAM"],
-            path: "Sources/main"
+            path: "Sources/systemstate"
         ),
+        .testTarget(
+            name: "systemstateTests",
+            dependencies: ["systemstate"]),
         
         // MARK: - CPU
         .target(
