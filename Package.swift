@@ -24,42 +24,72 @@ let package = Package(
         // MARK: - CPU
         .target(
             name: "CPU",
-            dependencies: ["Kit"],
+            dependencies: ["SystemKit", "Module"],
             path: "Sources/CPU"
         ),
         
         // MARK: - Memory
         .target(
             name: "Memory",
-            dependencies: ["Kit"],
+            dependencies: ["SystemKit", "Module"],
             path: "Sources/Memory"
-        ),
-        
-        // MARK: - Kit
-        .target(
-            name: "Kit",
-            dependencies: ["SMC"],
-            path: "Sources/Kit"
-        ),
-        
-        // MARK: - SMC
-        .target(
-            name: "SMC",
-            path: "Sources/SMC"
         ),
         
         // MARK: - Storage
         .target(
             name: "Storage",
-            dependencies: ["Kit"],
+            dependencies: ["SystemKit", "Module"],
             path: "Sources/Storage"
         ),
         
         // MARK: - Battery
         .target(
             name: "Battery",
-            dependencies: ["Kit"],
+            dependencies: ["SystemKit", "Module"],
             path: "Sources/Battery"
+        ),
+        
+        // MARK: - Dependencies
+        
+        // MARK: Module
+        .target(
+            name: "Module",
+            dependencies: ["SystemKit"],
+            path: "Sources/Module"
+        ),
+        
+        // MARK: Extensions
+        .target(
+            name: "Extensions",
+            dependencies: ["Common"],
+            path: "Sources/Extensions"
+        ),
+        
+        // MARK: Common
+        .target(
+            name: "Common",
+            path: "Sources/Common"
+        ),
+        
+        // MARK: Consts
+        .target(
+            name: "Consts",
+            dependencies: ["Common"],
+            path: "Sources/Consts"
+        ),
+        
+        // MARK: SystemKit
+        .target(
+            name: "SystemKit",
+            dependencies: ["SMC", "Consts", "Common"],
+            path: "Sources/SystemKit"
+        ),
+        
+        // MARK: SMC
+        .target(
+            name: "SMC",
+            dependencies: ["Extensions"],
+            path: "Sources/SMC"
         ),
     ]
 )
