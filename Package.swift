@@ -14,7 +14,7 @@ let package = Package(
         // MARK: - System State
         .target(
             name: "systemstate",
-            dependencies: ["CPU", "RAM", "Storage", "Battery"],
+            dependencies: ["CPU", "Memory", "Storage", "Battery"],
             path: "Sources/systemstate"
         ),
         .testTarget(
@@ -28,17 +28,17 @@ let package = Package(
             path: "Sources/CPU"
         ),
         
-        // MARK: - RAM
+        // MARK: - Memory
         .target(
-            name: "RAM",
+            name: "Memory",
             dependencies: ["Kit"],
-            path: "Sources/RAM"
+            path: "Sources/Memory"
         ),
         
         // MARK: - Kit
         .target(
             name: "Kit",
-            dependencies: ["LLDB", "SMC"],
+            dependencies: ["SMC"],
             path: "Sources/Kit"
         ),
         
@@ -46,13 +46,6 @@ let package = Package(
         .target(
             name: "SMC",
             path: "Sources/SMC"
-        ),
-        
-        // MARK: - LLDB
-        .target(
-            name: "LLDB",
-            path: "Sources/LLDB",
-            publicHeadersPath: "include"
         ),
         
         // MARK: - Storage

@@ -65,7 +65,6 @@ public struct model_s {
     public let name: String
     public let year: Int
     public let type: deviceType
-    public var icon: NSImage = NSImage(named: NSImage.Name("imacPro"))!
 }
 
 public struct os_s {
@@ -122,7 +121,11 @@ public struct info_s {
 }
 
 public struct device_s {
-    public var model: model_s = model_s(name: localizedString("Unknown"), year: Calendar.current.component(.year, from: Date()), type: .unknown)
+    public var model: model_s = model_s(
+        name: localizedString("Unknown"),
+        year: Calendar.current.component(.year, from: Date()),
+        type: .unknown
+    )
     public var serialNumber: String? = nil
     public var bootDate: Date? = nil
     
@@ -145,7 +148,6 @@ public class SystemKit {
         if let modelName = modelID ?? self.getModelID(), let model = deviceDict[modelName] {
             self.device.model = model
             self.device.model.id = modelName
-            self.device.model.icon = self.getIcon(type: self.device.model.type, year: self.device.model.year)
         } else if let model = self.getModel() {
             self.device.model = model
         }
@@ -225,7 +227,7 @@ public class SystemKit {
     }
     
     func modelAndSerialNumber() -> (String?, String?) {
-        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+        let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
         
         var modelIdentifier: String?
         if let property = IORegistryEntryCreateCFProperty(service, "model" as CFString, kCFAllocatorDefault, 0), let value = property.takeUnretainedValue() as? Data {
@@ -302,7 +304,7 @@ public class SystemKit {
     
     func getCPUCores() -> (Int32?, Int32?, [core_s])? {
         var iterator: io_iterator_t = io_iterator_t()
-        let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("AppleARMPE"), &iterator)
+        let result = IOServiceGetMatchingServices(kIOMainPortDefault, IOServiceMatching("AppleARMPE"), &iterator)
         if result != kIOReturnSuccess {
             print("Error find AppleARMPE: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return nil
@@ -550,8 +552,7 @@ public class SystemKit {
                     id: model,
                     name: "\(name) (\(cpu.removedRegexMatches(pattern: "Apple ", replaceWith: "")))",
                     year: year,
-                    type: type,
-                    icon: self.getIcon(type: type, year: year)
+                    type: type
                 )
             }
         } catch let err as NSError {

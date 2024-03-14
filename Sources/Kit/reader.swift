@@ -74,13 +74,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         self.callbackHandler = callback
         
         super.init()
-//        DB.shared.setup(T.self, "\(module.rawValue)@\(self.name)")
         self.setup()
-        
-//        if let lastValue = DB.shared.findOne(T.self, key: "\(module.rawValue)@\(self.name)") {
-//            self.value = lastValue
-//            callback(lastValue)
-//        }
         
         debug("Successfully initialize reader", log: self.log)
     }
@@ -96,7 +90,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     public func callback(_ value: T?) {
         self.value = value
         if let value {
-//            DB.shared.insert(key: "\(self.module.rawValue)@\(self.name)", value: value, ts: self.history)
             self.callbackHandler(value)
         }
     }

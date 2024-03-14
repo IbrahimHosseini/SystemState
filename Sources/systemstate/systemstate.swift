@@ -3,8 +3,8 @@
 @_exported import CPU
 #endif
 
-#if canImport(RAM)
-@_exported import RAM
+#if canImport(Memory)
+@_exported import Memory
 #endif
 
 #if canImport(Storage)

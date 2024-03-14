@@ -560,6 +560,3 @@ public class AverageReader: Reader<[Double]> {
         self.callback(list)
     }
 }
-
-
-
