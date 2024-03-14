@@ -61,8 +61,11 @@ public class Memory: Module {
         let compressed = Units(bytes: Int64(raw.compressed)).getReadableMemory()
         let used = Units(bytes: Int64(raw.used)).getReadableMemory()
         
-        memoryInfo = "memory Total: \(totalSize) Used: \(used) App=> \(app), wired: \(wired), compressed: \(compressed), free: \(free)"
-        print("++++ ", memoryInfo)
+        memoryInfo = "Total: \(totalSize) Used: \(used) App=> \(app), wired: \(wired), compressed: \(compressed), free: \(free)"
+        print("""
+              ===================MEMORY====================
+              \(memoryInfo)
+              """)
     }
     
     private func processCallback(_ lists: [TopProcess]?) {

@@ -63,7 +63,10 @@ public class CPU: Module {
         let idlePercent = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
         
         cpuInfo = "system: \(systemPercent), user: \(userPercent), idle: \(idlePercent)"
-        print("++++ ", cpuInfo)
+        print("""
+        =====================CPU======================
+        \(cpuInfo)
+        """)
     }
     
     private func process(_ lists: [TopProcess]?) {
