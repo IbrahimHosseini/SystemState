@@ -14,3 +14,7 @@
 #if canImport(Battery)
 @_exported import Battery
 #endif
+
+#if canImport(DeviceInfo)
+@_exported import DeviceInfo
+#endif

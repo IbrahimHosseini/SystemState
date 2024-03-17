@@ -15,4 +15,13 @@ public extension Date {
     func currentTimeSeconds() -> Int {
         return Int(self.timeIntervalSince1970)
     }
+    
+    var dayHourMinuteFormat: String {
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.day, .hour, .minute]
+        
+        return form.string(from: self, to: Date()) ?? ""
+    }
 }

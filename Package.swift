@@ -14,7 +14,7 @@ let package = Package(
         // MARK: - System State
         .target(
             name: "systemstate",
-            dependencies: ["CPU", "Memory", "Storage", "Battery"],
+            dependencies: ["CPU", "Memory", "Storage", "Battery", "DeviceInfo"],
             path: "Sources/systemstate"
         ),
         .testTarget(
@@ -47,6 +47,13 @@ let package = Package(
             name: "Battery",
             dependencies: ["SystemKit", "Module"],
             path: "Sources/Battery"
+        ),
+        
+        // MARK: - Device Info
+        .target(
+            name: "DeviceInfo",
+            dependencies: ["SystemKit"],
+            path: "Sources/DeviceInfo"
         ),
         
         // MARK: - Dependencies
