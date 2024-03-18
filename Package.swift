@@ -7,14 +7,24 @@ let package = Package(
     name: "SystemState",
     platforms: [.macOS(.v12)],
     products: [
-        .library(name: "systemstate", targets: ["systemstate"]),
+        .library(
+            name: "systemstate",
+            targets: ["systemstate"]
+        ),
     ],
     targets: [
         
         // MARK: - System State
         .target(
             name: "systemstate",
-            dependencies: ["CPU", "Memory", "Storage", "Battery", "DeviceInfo"],
+            dependencies: [
+                "CPU",
+                "Memory",
+                "Storage",
+                "Battery",
+                "DeviceInfo",
+                "Sensors",
+            ],
             path: "Sources/systemstate"
         ),
         .testTarget(
@@ -56,7 +66,27 @@ let package = Package(
             path: "Sources/DeviceInfo"
         ),
         
+        // MARK: - Sensores
+        .target(
+            name: "Sensors",
+            dependencies: [
+                "SystemKit",
+                "SMC",
+                "Common",
+                "Module",
+                "Bridge",
+            ],
+            path: "Sources/Sensors"
+        ),
+        
         // MARK: - Dependencies
+        
+        // MARK: Module
+        .target(
+            name: "Bridge",
+            path: "Sources/Bridge",
+            publicHeadersPath: "include"
+        ),
         
         // MARK: Module
         .target(
@@ -88,7 +118,11 @@ let package = Package(
         // MARK: SystemKit
         .target(
             name: "SystemKit",
-            dependencies: ["SMC", "Consts", "Common"],
+            dependencies: [
+                "SMC",
+                "Consts",
+                "Common"
+            ],
             path: "Sources/SystemKit"
         ),
         

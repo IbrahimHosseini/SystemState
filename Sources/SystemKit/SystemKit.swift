@@ -48,6 +48,7 @@ public class SystemKit {
         self.device.info.ram = self.getRamInfo()
         self.device.info.gpu = self.getGPUInfo()
         self.device.info.disk = self.getDiskInfo()
+        self.getStorageInfo()
         
         if let name = self.device.info.cpu?.name?.lowercased() {
             if name.contains("intel") {
@@ -330,6 +331,35 @@ public class SystemKit {
         
         return nil
     }
+    
+    public func getStorageInfo() {
+//        let argument = "SPApplicationsDataType"
+//        let argument = "SPHardwareDataType"
+//        let argument = "SPSoftwareDataType"
+        let argument = "diskutil"
+        guard let res = process(path: "/usr/sbin/system_profiler", arguments: [argument, "-json"]) else {
+            return
+        }
+        
+        do {
+            if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
+                
+                if let obj = json[argument] as? [[String: Any]], !obj.isEmpty {
+                    if let items = obj[0]["_items"] as? [[String: Any]] {
+                        for i in 0..<items.count {
+                            let _ = items[i]
+                        }
+                    }
+                }
+                
+            }
+        } catch let err as NSError {
+            error("error to parse system_profiler SPMemoryDataType: \(err.localizedDescription)")
+        }
+        
+        
+    }
+    
     
     public func getRamInfo() -> MemoryModel? {
         guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPMemoryDataType", "-json"]) else {
