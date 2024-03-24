@@ -108,7 +108,7 @@ public enum DeviceInfo {
     public static let storageModel = SystemKit.shared.device.info.disk?.model ?? SystemKit.shared.device.info.disk?.name ?? "Unknown"
     
     /// Storage size
-    public static let storageSize = DiskSize(SystemKit.shared.device.info.disk?.size ?? 0).getReadableMemory()
+    public static let storageSize = DiskSize(SystemKit.shared.device.info.disk?.size ?? 0).getReadableStorage()
     
     /// CPU Uptime
     public static let uptime: Date = SystemKit.shared.device.bootDate ?? Date()

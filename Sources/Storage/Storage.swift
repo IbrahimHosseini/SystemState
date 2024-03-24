@@ -17,7 +17,8 @@ public class Storage: Module {
     
     private var selectedDisk: String = ""
     
-    public var storageInfo = ""
+    public var storageInfo: StorageModel!
+    public var topProcess = [StorageProcess]()
     
     public override init() {
         super.init()
@@ -60,22 +61,23 @@ public class Storage: Module {
             return
         }
         
-        let free = DiskSize(d.free).getReadableMemory()
-        let total = DiskSize(d.size).getReadableMemory()
-        let used = DiskSize(d.size - d.free).getReadableMemory()
+        let free = d.free.readableStorage
+        let total = d.size.readableStorage
+        let used = (d.size - d.free).readableStorage
         
-        storageInfo = "Total: \(total), Free: \(free), used: \(used)"
-        
-        print("""
-            ===================STORAGE====================
-            \(storageInfo)
-            """)
+        storageInfo = StorageModel(
+            total: d.size,
+            free: d.free,
+            used: d.size - d.free
+        )
     }
     
 }
 
 extension Storage {
     internal func processCallback(_ list: [StorageProcess]) {
+        
+        topProcess = list
         
         let list = list.map{ $0 }
         

@@ -17,7 +17,11 @@ public class CPU: Module {
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
     
-    public var cpuInfo: String = ""
+    private var cpuInfo: String = ""
+    
+    public var cpuLoad: CPULoad!
+    public var topProcess = [TopProcess]()
+    
     
     public override init() {
         super.init()
@@ -58,9 +62,12 @@ public class CPU: Module {
     
     private func loadCallback(_ value: CPULoad?) {
         guard let value else { return }
-        let systemPercent = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
-        let userPercent = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
-        let idlePercent = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
+        
+        cpuLoad = value
+        
+        let systemPercent = value.systemLoad.showAsPercent
+        let userPercent = value.userLoad.showAsPercent
+        let idlePercent = value.idleLoad.showAsPercent
         
         cpuInfo = "system: \(systemPercent), user: \(userPercent), idle: \(idlePercent)"
         print("""
@@ -71,6 +78,8 @@ public class CPU: Module {
     
     private func process(_ lists: [TopProcess]?) {
         guard let lists else { return }
+        
+        topProcess = lists
         
         let mapList = lists.map { $0 }
         

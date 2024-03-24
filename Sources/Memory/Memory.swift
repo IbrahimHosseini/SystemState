@@ -14,7 +14,10 @@ public class Memory: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
-    public var memoryInfo = ""
+    private var memoryInfo = ""
+    
+    public var memoryUsage: MemoryUsage!
+    public var topProcess = [TopProcess]()
     
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
@@ -53,14 +56,16 @@ public class Memory: Module {
     
     private func loadCallback(_ raw: MemoryUsage?) {
         guard let raw else { return }
+
+        memoryUsage = raw
         
         let total: Double = raw.total == 0 ? 1 : raw.total
-        let totalSize = Units(bytes: Int64(total)).getReadableMemory()
-        let app = Units(bytes: Int64(raw.app)).getReadableMemory()
-        let free = Units(bytes: Int64(raw.free)).getReadableMemory()
-        let wired = Units(bytes: Int64(raw.wired)).getReadableMemory()
-        let compressed = Units(bytes: Int64(raw.compressed)).getReadableMemory()
-        let used = Units(bytes: Int64(raw.used)).getReadableMemory()
+        let totalSize = total.readableMemory
+        let app = raw.app.readableMemory
+        let free = raw.free.readableMemory
+        let wired = raw.wired.readableMemory
+        let compressed = raw.compressed.readableMemory
+        let used = raw.used.readableMemory
         
         memoryInfo = "Total: \(totalSize) Used: \(used) App=> \(app), wired: \(wired), compressed: \(compressed), free: \(free)"
         print("""
@@ -71,6 +76,8 @@ public class Memory: Module {
     
     private func processCallback(_ lists: [TopProcess]?) {
         guard let lists else { return }
+        
+        self.topProcess = lists
         
         let mapList = lists.map { $0 }
         

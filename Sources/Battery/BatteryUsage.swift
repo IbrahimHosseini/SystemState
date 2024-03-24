@@ -39,3 +39,9 @@ public struct BatteryUsage: value_t, Codable {
         }
     }
 }
+
+public extension Double {
+    var showAsBatteryPercent: String {
+        "\(Int(abs(self) * 100))%"
+    }
+}

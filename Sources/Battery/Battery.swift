@@ -18,7 +18,8 @@ public class Battery: Module {
     private var highLevelNotificationState: Bool = false
     private var notificationID: String? = nil
     
-    public var batteryInfo = ""
+    public var batteyInfo: BatteryUsage!
+    public var topProcess = [TopProcess]()
     
     public override init() {
         
@@ -50,32 +51,11 @@ public class Battery: Module {
     private func usageCallback(_ value: BatteryUsage?) {
         guard let value else { return }
         
-        let level = "\(Int(abs(value.level) * 100))%"
-        let health = value.health
-        let cycles = value.cycles
-        
-        batteryInfo = "Level: \(level), Health: \(health), Cycles: \(cycles)"
-        
-        print("""
-            ===================BATTERY====================
-            \(batteryInfo)
-            """)
+        batteyInfo = value
     }
     
     public func processCallback(_ list: [TopProcess]) {
-        
-        let mapList = list.map { $0 }
-        
-        for i in 0..<mapList.count {
-            let process = mapList[i]
-//            self.processes?.set(i, process, ["\(process.usage)%"])
-            
-            print("""
-                    +++++ Process list:
-                    process\(i) => id: \(process.pid), name: \(process.name), usage: \(process.usage)%
-                """)
-        }
-        
+        self.topProcess = list
     }
 
 }

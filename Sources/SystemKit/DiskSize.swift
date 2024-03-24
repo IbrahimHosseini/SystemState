@@ -27,7 +27,7 @@ public struct DiskSize {
         return gigabytes / 1_000
     }
     
-    public func getReadableMemory() -> String {
+    public func getReadableStorage() -> String {
         switch value {
         case 0..<1_000:
             return "0 KB"

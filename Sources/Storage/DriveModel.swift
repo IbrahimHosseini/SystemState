@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SystemKit
 
 public struct DriveModel: Codable {
     var parent: io_object_t = 0
@@ -36,4 +37,17 @@ public struct DriveModel: Codable {
         }
         return Double(usedSpace) / Double(total)
     }
+}
+
+extension Int64 {
+    var readableStorage: String {
+        DiskSize(self).getReadableStorage()
+    }
+}
+
+
+public struct StorageModel {
+    let total: Int64
+    let free: Int64
+    let used: Int64
 }

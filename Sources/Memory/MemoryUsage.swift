@@ -41,3 +41,9 @@ public struct MemoryUsage: value_t, Codable {
         DispatchSource.MemoryPressureEvent(rawValue: self.rawPressureLevel)
     }
 }
+
+public extension Double {
+    var readableMemory: String {
+        Units(bytes: Int64(self)).getReadableMemory()
+    }
+}
