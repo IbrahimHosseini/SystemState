@@ -19,13 +19,13 @@ public class Sensors: Module {
         .percentage
     }
     
-    public var sensoreInfo = ""
+    private var sensoreInfo = ""
+    public var tempratures = [SensorService]()
     
     public override init() {
         super.init()
         
         self.sensorsReader = SensorsReader { [weak self] value in
-            print("value=> \(value?.sensors.map { $0.value})")
             self?.usageCallback(value)
         }
         
@@ -33,44 +33,13 @@ public class Sensors: Module {
         
         self.sensorsReader?.setInterval(1)
         
-//        DispatchQueue.global(qos: .background).async {
-//            self.sensorsReader?.HIDCallback()
-//        }
-//        
-//        DispatchQueue.global(qos: .background).async {
-//            self.sensorsReader?.unknownCallback()
-//        }
-        
         self.setReaders([self.sensorsReader])
     }
-    
-//    private func checkIfNoSensorsEnabled() {
-//        guard let reader = self.sensorsReader else { return }
-//        if reader.list.sensors.filter({ $0.state }).isEmpty {
-//            NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": false])
-//        }
-//    }
     
     private func usageCallback(_ value: SensorsListService?) {
         guard let value else { return }
         
-        var list: [StackModel] = []
-        
-        value.sensors.forEach { (s: SensorService) in
-            if s.state {
-                var value = s.formattedMiniValue
-                
-                if let f = s as? Fan {
-
-                    if self.fanValueState == .percentage {
-                        value = "\(f.percentage)%"
-                    }
-                }
-                list.append(StackModel(key: s.key, value: value, additional: s.name))
-            }
-            sensoreInfo = "+++=== \(value.sensors.map { "Value: \($0.name), type: \($0.value)" })"
-            print(sensoreInfo)
-        }
+        tempratures = value.sensors.filter { $0.type == .temperature }
         
     }
 }
