@@ -18,12 +18,7 @@ public class Sensors: Module {
         .percentage
     }
     
-    private var sensoreInfo = ""
-    public var tempratures = [SensorService]()
-    
-    public var cpuTempreture: Double = 0
-    public var gpuTempreture: Double = 0
-    public var storageTempreture: Double = 0
+    private var tempratures = [SensorService]()
     
     public override init() {
         super.init()
@@ -53,8 +48,25 @@ public class Sensors: Module {
             .first?.value
     }
     
-    
-    
+    public func temprator( _ type: ModuleType) -> Double? {
+        switch type {
+        case .storage:
+            return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Disk") }.first?.value
+
+        case .network:
+            return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Airport") }.first?.value
+            
+        case .battery:
+            let battery = tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Battery") }
+            
+            let sum = battery.map { $0.value }.reduce(0, { $0 + $1 })
+                
+            return sum/Double(battery.count)
+            
+        default: return 0
+        
+        }
+    }
 }
 
 public struct StackModel: KeyValueHelper {
