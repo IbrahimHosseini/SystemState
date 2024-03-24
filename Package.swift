@@ -108,11 +108,11 @@ let package = Package(
             path: "Sources/Common"
         ),
         
-        // MARK: Consts
+        // MARK: Constants
         .target(
-            name: "Consts",
+            name: "Constants",
             dependencies: ["Common"],
-            path: "Sources/Consts"
+            path: "Sources/Constants"
         ),
         
         // MARK: SystemKit
@@ -120,7 +120,7 @@ let package = Package(
             name: "SystemKit",
             dependencies: [
                 "SMC",
-                "Consts",
+                "Constants",
                 "Common"
             ],
             path: "Sources/SystemKit"

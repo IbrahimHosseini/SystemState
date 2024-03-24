@@ -1,11 +1,11 @@
 //
-//  Consts.swift
+//  Constants.swift
 //  
 //
 //  Created by Ibrahim on 3/14/24.
 //
 
-import Foundation
+import AppKit
 import Common
 
 public let BatteryInfo: [KeyValueModel] = [
@@ -16,3 +16,6 @@ public let BatteryInfo: [KeyValueModel] = [
 ]
 
 
+public struct Constants {
+    public static let defaultProcessIcon = NSWorkspace.shared.icon(forFile: "/bin/bash")
+}

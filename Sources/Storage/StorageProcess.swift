@@ -8,6 +8,7 @@
 import SystemKit
 import AppKit
 import Common
+import Constants
 
 public struct StorageProcess: ProcessService, Codable {
     public var base: StorageSizeBase {
