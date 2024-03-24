@@ -15,12 +15,15 @@ public class Sensors: Module {
     private var sensorsReader: SensorsReader?
     
     private var fanValueState: FanValue {
-//        FanValue(rawValue: Store.shared.string(key: "\(self.config.name)_fanValue", defaultValue: "percentage")) ??
         .percentage
     }
     
     private var sensoreInfo = ""
     public var tempratures = [SensorService]()
+    
+    public var cpuTempreture: Double = 0
+    public var gpuTempreture: Double = 0
+    public var storageTempreture: Double = 0
     
     public override init() {
         super.init()
@@ -41,7 +44,17 @@ public class Sensors: Module {
         
         tempratures = value.sensors.filter { $0.type == .temperature }
         
+        let cpuTempreture = tempratures.filter { $0.group == .CPU }.first?.value
+        
+        let gpuTempreture = tempratures.filter { $0.group == .GPU }.first?.value
+        
+        let storageTempreture = tempratures
+            .filter { $0.group == .system && $0.name.hasPrefix("Disk") }
+            .first?.value
     }
+    
+    
+    
 }
 
 public struct StackModel: KeyValueHelper {
