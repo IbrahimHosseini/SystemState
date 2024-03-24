@@ -46,6 +46,12 @@ public extension Double {
     }
 }
 
+public extension Int {
+    var showAsBatteryPercent: String {
+        "\(abs(self) * 100)%"
+    }
+}
+
 public struct BatteryInfo {
     public let level: Double
     public let cycles: Int
