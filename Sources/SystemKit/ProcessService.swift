@@ -10,5 +10,6 @@ import Cocoa
 public protocol ProcessService {
     var pid: Int { get }
     var name: String { get }
+    var icon: NSImage { get }
 }
 

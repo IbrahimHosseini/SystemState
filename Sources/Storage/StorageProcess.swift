@@ -11,12 +11,19 @@ import Common
 import Constants
 
 public struct StorageProcess: ProcessService, Codable {
+    
     public var base: StorageSizeBase {
         StorageSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.storage.rawValue)_base", defaultValue: "byte")) ?? .byte
     }
     
     public var pid: Int
     public var name: String
+    public var icon: NSImage {
+        if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)) {
+            return app.icon ?? Constants.defaultProcessIcon
+        }
+        return Constants.defaultProcessIcon
+    }
     
     var read: Int
     var write: Int
