@@ -9,16 +9,16 @@ import Foundation
 import SystemKit
 
 public struct MemoryUsage: value_t, Codable {
-    var total: Double
-    var used: Double
-    var free: Double
+    public var total: Double
+    public var used: Double
+    public var free: Double
     
-    var active: Double
-    var inactive: Double
-    var wired: Double
-    var compressed: Double
+    public var active: Double
+    public var inactive: Double
+    public var wired: Double
+    public var compressed: Double
     
-    var app: Double
+    public var app: Double
     var cache: Double
     var pressure: Double
     

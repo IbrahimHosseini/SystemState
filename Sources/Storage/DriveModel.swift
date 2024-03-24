@@ -39,7 +39,7 @@ public struct DriveModel: Codable {
     }
 }
 
-extension Int64 {
+public extension Int64 {
     var readableStorage: String {
         DiskSize(self).getReadableStorage()
     }
@@ -47,7 +47,7 @@ extension Int64 {
 
 
 public struct StorageModel {
-    let total: Int64
-    let free: Int64
-    let used: Int64
+    public let total: Int64
+    public let free: Int64
+    public let used: Int64
 }

@@ -45,3 +45,9 @@ public extension Double {
         "\(Int(abs(self) * 100))%"
     }
 }
+
+public struct BatteryInfo {
+    public let level: Double
+    public let cycles: Int
+    public let health: Int
+}
