@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public struct BatteryUsage: value_t, Codable {
+internal struct BatteryUsage: value_t, Codable {
     var powerSource: String = ""
     var state: String? = nil
     var isCharged: Bool = false
@@ -38,22 +38,4 @@ public struct BatteryUsage: value_t, Codable {
             return self.level
         }
     }
-}
-
-public extension Double {
-    var showAsBatteryPercent: String {
-        "\(Int(abs(self) * 100))%"
-    }
-}
-
-public extension Int {
-    var showAsBatteryPercent: String {
-        "\(abs(self) * 100)%"
-    }
-}
-
-public struct BatteryInfo {
-    public let level: Double
-    public let cycles: Int
-    public let health: Int
 }

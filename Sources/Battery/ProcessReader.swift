@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public class ProcessReader: Reader<[TopProcess]> {
+internal class ProcessReader: Reader<[TopProcess]> {
     private var numberOfProcesses: Int {
         get {
             return Store.shared.int(key: "Battery_processes", defaultValue: 8)

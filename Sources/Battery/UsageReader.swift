@@ -17,7 +17,7 @@ internal class UsageReader: Reader<BatteryUsage> {
     
     private var usage: BatteryUsage = BatteryUsage()
     
-    public override func start() {
+    internal override func start() {
         self.active = true
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
@@ -38,7 +38,7 @@ internal class UsageReader: Reader<BatteryUsage> {
         self.read()
     }
     
-    public override func stop() {
+    internal override func stop() {
         guard let runLoop = loop, let source = source else {
             return
         }
@@ -47,7 +47,7 @@ internal class UsageReader: Reader<BatteryUsage> {
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
     }
     
-    public override func read() {
+    internal override func read() {
         let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
         

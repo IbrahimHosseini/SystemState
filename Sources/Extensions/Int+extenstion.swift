@@ -24,3 +24,9 @@ public extension Int {
         self = (Int(bytes.0) << 6) + (Int(bytes.1) >> 2)
     }
 }
+
+internal extension Int {
+    var showAsBatteryPercent: String {
+        "\(abs(self) * 100)%"
+    }
+}

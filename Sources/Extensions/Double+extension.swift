@@ -110,3 +110,9 @@ public extension Double {
         return "\(h)h \(minutes)min"
     }
 }
+
+internal extension Double {
+    var showAsBatteryPercent: String {
+        "\(Int(abs(self) * 100))%"
+    }
+}
