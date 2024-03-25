@@ -111,7 +111,7 @@ public extension Double {
     }
 }
 
-internal extension Double {
+public extension Double {
     var showAsBatteryPercent: String {
         "\(Int(abs(self) * 100))%"
     }

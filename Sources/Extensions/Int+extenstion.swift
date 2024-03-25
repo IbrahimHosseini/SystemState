@@ -25,7 +25,7 @@ public extension Int {
     }
 }
 
-internal extension Int {
+public extension Int {
     var showAsBatteryPercent: String {
         "\(abs(self) * 100)%"
     }
