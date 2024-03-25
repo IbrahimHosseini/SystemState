@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public class ProcessReader: Reader<[TopProcess]> {
+internal class ProcessReader: Reader<[TopProcess]> {
     private let title: String = "CPU"
     
     private var numberOfProcesses: Int {

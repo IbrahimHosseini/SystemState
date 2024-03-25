@@ -44,10 +44,3 @@ public extension Int64 {
         DiskSize(self).getReadableStorage()
     }
 }
-
-
-public struct StorageModel {
-    public let total: Int64
-    public let free: Int64
-    public let used: Int64
-}

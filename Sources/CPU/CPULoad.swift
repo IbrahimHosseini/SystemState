@@ -23,9 +23,3 @@ public struct CPULoad: value_t, Codable {
         }
     }
 }
-
-public extension Double {
-    var showAsPercent: String {
-        "\(Int(self.rounded(toPlaces: 2) * 100))%"
-    }
-}

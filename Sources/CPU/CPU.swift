@@ -92,7 +92,7 @@ public class CPU: Module {
         }
     }
     
-    public func temperatureCallback(_ value: Double?) {
+    private func temperatureCallback(_ value: Double?) {
         guard let value else { return }
         print("CPU Tempreture=> \(temperature(value))")
     }

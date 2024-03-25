@@ -116,3 +116,9 @@ public extension Double {
         "\(Int(abs(self) * 100))%"
     }
 }
+
+public extension Double {
+    var showAsPercent: String {
+        "\(Int(self.rounded(toPlaces: 2) * 100))%"
+    }
+}

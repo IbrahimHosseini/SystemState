@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SmartModel: Codable {
+internal struct SmartModel: Codable {
     var temperature: Int = 0
     var life: Int = 0
 }

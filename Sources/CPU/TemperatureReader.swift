@@ -8,7 +8,7 @@
 import SystemKit
 import SMC
 
-public class TemperatureReader: Reader<Double> {
+internal class TemperatureReader: Reader<Double> {
     var list: [String] = []
     
     public override func setup() {

@@ -8,7 +8,7 @@
 import Foundation
 import SystemKit
 
-public class ProcessReader: Reader<[StorageProcess]> {
+internal class ProcessReader: Reader<[StorageProcess]> {
     private let queue = DispatchQueue(label: "eu.exelban.Disk.processReader")
     
     private var _list: [Int32: IOModel] = [:]

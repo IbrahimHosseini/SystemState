@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public class FrequencyReader: Reader<Double> {
+internal class FrequencyReader: Reader<Double> {
     private typealias PGSample = UInt64
     private typealias UDouble = UnsafeMutablePointer<Double>
     

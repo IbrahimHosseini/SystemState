@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class SensorsListService: Codable {
+internal class SensorsListService: Codable {
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Sensors.SynchronizedArray", attributes: .concurrent)
     
     private var list: [SensorService] = []

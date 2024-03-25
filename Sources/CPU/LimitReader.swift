@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public class LimitReader: Reader<CPULimitModel> {
+internal class LimitReader: Reader<CPULimitModel> {
     private var limits: CPULimitModel = CPULimitModel()
     
     public override func read() {

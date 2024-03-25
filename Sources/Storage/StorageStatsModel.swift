@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct StorageStatsModel: Codable {
+internal struct StorageStatsModel: Codable {
     var read: Int64 = 0
     var write: Int64 = 0
     

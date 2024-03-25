@@ -50,6 +50,9 @@ public class Sensors: Module {
     
     public func temprator( _ type: ModuleType) -> Double? {
         switch type {
+            
+        case .CPU: return 0
+            
         case .storage:
             return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Disk") }.first?.value
 

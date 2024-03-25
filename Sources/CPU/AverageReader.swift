@@ -8,7 +8,7 @@
 import SystemKit
 import AppKit
 
-public class AverageReader: Reader<[Double]> {
+internal class AverageReader: Reader<[Double]> {
     private let title: String = "CPU"
     
     public override func setup() {
