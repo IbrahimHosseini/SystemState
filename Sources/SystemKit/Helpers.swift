@@ -105,7 +105,7 @@ public extension UnitTemperature {
     }
 }
 
-public func temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.celsius, fractionDigits: Int = 0) -> String {
+public func temperature(_ value: Double, defaultUnit: UnitTemperature = UnitTemperature.system, fractionDigits: Int = 0) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = Locale.init(identifier: "en_US")
     formatter.numberFormatter.maximumFractionDigits = fractionDigits

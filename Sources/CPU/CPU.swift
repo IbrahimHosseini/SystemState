@@ -21,6 +21,7 @@ public class CPU: Module {
     
     public var cpuLoad: CPULoad!
     public var topProcess = [TopProcess]()
+    public var tempreture = ""
     
     
     public override init() {
@@ -95,6 +96,7 @@ public class CPU: Module {
     private func temperatureCallback(_ value: Double?) {
         guard let value else { return }
         print("CPU Tempreture=> \(temperature(value))")
+        self.tempreture = temperature(value)
     }
 }
 

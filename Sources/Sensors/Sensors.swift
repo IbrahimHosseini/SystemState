@@ -38,20 +38,10 @@ public class Sensors: Module {
         guard let value else { return }
         
         tempratures = value.sensors.filter { $0.type == .temperature }
-        
-        let cpuTempreture = tempratures.filter { $0.group == .CPU }.first?.value
-        
-        let gpuTempreture = tempratures.filter { $0.group == .GPU }.first?.value
-        
-        let storageTempreture = tempratures
-            .filter { $0.group == .system && $0.name.hasPrefix("Disk") }
-            .first?.value
     }
     
     public func temprator( _ type: ModuleType) -> Double? {
         switch type {
-            
-        case .CPU: return 0
             
         case .storage:
             return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Disk") }.first?.value
