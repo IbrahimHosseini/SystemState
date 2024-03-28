@@ -1,5 +1,14 @@
 # SystemState
-<!-- // Logo and badges -->
+
+[![pipeline status](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/pipeline.svg?ignore_skipped=true)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
+[![coverage report](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/coverage.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
+[![Latest Release](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/badges/release.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/releases)
+
+![storage](./Assets/storage.png)
+![memory](./Assets/memory.png)
+![cpu](./Assets/cpu.png)
+![battery](./Assets/battery.png)
+
 macOS system monitor.
 ## Features
 SystemState is an application that allows you to monitor your macOS system.
@@ -29,7 +38,7 @@ If you encounter any problem or have a question on adding the package to an Xcod
 
 ### systemstate
  ```swift
-import systemState
+import systemstate
 
 // CPU information
 let cpu = CPU()
