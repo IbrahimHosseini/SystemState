@@ -9,6 +9,11 @@ import SystemKit
 import Module
 
 // MARK: - CPU Info
+
+/// A mudule that get a **CPU** informations.
+/// 
+///  This informations include the ``cpuLoad`` and ``topProcess``.
+///
 public class CPU: Module {
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil

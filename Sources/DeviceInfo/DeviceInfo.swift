@@ -9,7 +9,10 @@ import Foundation
 import SystemKit
 import Extensions
 
-/// Device hardware informations
+/// A mudule that get a **Device** informations.
+///
+///  This informations include the ``osName``, ``osFullVersion``, ``cpuName``, ``memory``, ``gpu``, ``storageModel``, ``serialNumber``, ``storageSize``, and ``uptime``.
+///
 public enum DeviceInfo {
     
     /// mac os name

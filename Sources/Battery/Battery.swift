@@ -11,6 +11,10 @@ import AppKit
 import SystemKit
 import Module
 
+/// A mudule that get a **Battery** informations.
+/// 
+///  This informations include the ``batteyInfo`` and ``topProcess``.
+///
 public class Battery: Module {
     
     private var usageReader: UsageReader? = nil

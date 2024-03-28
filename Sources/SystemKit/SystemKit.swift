@@ -12,6 +12,10 @@ public var isARM: Bool {
     SystemKit.shared.device.platform != .intel
 }
 
+/// A mudule that get a **SystemKit** informations.
+///
+///  This informations include the ``device`` and ``getModelID()``.
+///
 public class SystemKit {
     public static let shared = SystemKit()
     

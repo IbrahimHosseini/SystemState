@@ -9,6 +9,10 @@ import Foundation
 import SystemKit
 import Module
 
+/// A mudule that get a **Memory(RAM)** informations.
+///
+///  This informations include the ``memoryUsage`` and ``topProcess``.
+///
 public class Memory: Module {
  
     private var usageReader: UsageReader? = nil

@@ -13,6 +13,10 @@ import Module
 import SMC
 import Common
 
+/// A mudule that get a **Sensors** informations.
+///
+///  This informations include the ``temprator(_:)`` .
+///
 public class Sensors: Module {
     private var sensorsReader: SensorsReader?
     

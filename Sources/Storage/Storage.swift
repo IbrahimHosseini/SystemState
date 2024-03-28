@@ -9,6 +9,10 @@ import Cocoa
 import SystemKit
 import Module
 
+/// A mudule that get a **Storage(Disk)** informations.
+///
+///  This informations include the ``storageInfo`` and ``topProcess``.
+///
 public class Storage: Module {
     
     private var capacityReader: StorageReader?
