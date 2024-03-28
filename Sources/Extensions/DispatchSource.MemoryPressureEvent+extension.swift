@@ -5,7 +5,9 @@
 //  Created by Ibrahim on 3/14/24.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 
 public extension DispatchSource.MemoryPressureEvent {
     func pressureColor() -> NSColor {

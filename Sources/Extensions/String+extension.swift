@@ -5,7 +5,9 @@
 //  Created by Ibrahim on 3/14/24.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 
 extension String: LocalizedError {
     public var errorDescription: String? { return self }

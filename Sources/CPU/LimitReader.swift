@@ -5,8 +5,10 @@
 //  Created by Ibrahim on 3/14/24.
 //
 
-import SystemKit
+#if os(macOS)
 import AppKit
+#endif
+import SystemKit
 
 internal class LimitReader: Reader<CPULimitModel> {
     private var limits: CPULimitModel = CPULimitModel()

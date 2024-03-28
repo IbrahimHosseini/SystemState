@@ -5,7 +5,9 @@
 //  Created by Ibrahim on 3/11/24.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 
 public enum ModuleType: Int {
     case CPU

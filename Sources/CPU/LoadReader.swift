@@ -5,7 +5,9 @@
 //  Created by Ibrahim on 3/12/24.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 import SystemKit
 import SMC
 

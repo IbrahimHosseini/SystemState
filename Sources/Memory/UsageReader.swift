@@ -5,8 +5,10 @@
 //  Created by Ibrahim on 3/12/24.
 //
 
-import SystemKit
+#if os(macOS)
 import AppKit
+#endif
+import SystemKit
 
 internal class UsageReader: Reader<MemoryUsage> {
     public var totalSize: Double = 0

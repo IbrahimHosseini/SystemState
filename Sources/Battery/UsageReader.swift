@@ -4,8 +4,9 @@
 //
 //  Created by Ibrahim on 3/13/24.
 //
-
+#if os(macOS)
 import AppKit
+#endif
 import SystemKit
 import IOKit.ps
 

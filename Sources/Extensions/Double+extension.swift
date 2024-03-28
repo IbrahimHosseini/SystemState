@@ -5,7 +5,9 @@
 //  Created by Ibrahim on 3/14/24.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 import Common
 
 public extension Double {

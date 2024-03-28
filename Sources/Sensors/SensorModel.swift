@@ -5,8 +5,10 @@
 //  Created by Ibrahim on 3/18/24.
 //
 
-import SystemKit
+#if os(macOS)
 import AppKit
+#endif
+import SystemKit
 import Module
 
 public struct SensorModel: SensorService, Codable {
