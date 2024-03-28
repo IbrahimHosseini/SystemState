@@ -61,10 +61,6 @@ public class Storage: Module {
             return
         }
         
-        let free = d.free.readableStorage
-        let total = d.size.readableStorage
-        let used = (d.size - d.free).readableStorage
-        
         storageInfo = StorageModel(
             total: d.size,
             free: d.free,

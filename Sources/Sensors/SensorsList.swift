@@ -30,12 +30,12 @@ internal class SensorsListService: Codable {
     
     public func encode(to encoder: Encoder) throws {
 //        let wrappers = sensors.map { Sensor_w($0) }
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var _ = encoder.container(keyedBy: CodingKeys.self)
 //        try container.encode(wrappers, forKey: .sensors)
     }
     
     required public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let _ = try decoder.container(keyedBy: CodingKeys.self)
 //        let wrappers = try container.decode([Sensor_w].self, forKey: .sensors)
 //        self.sensors = wrappers.map { $0.sensor }
     }

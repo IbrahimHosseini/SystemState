@@ -18,3 +18,7 @@
 #if canImport(DeviceInfo)
 @_exported import DeviceInfo
 #endif
+
+#if canImport(Sensors)
+@_exported import Sensors
+#endif
