@@ -26,7 +26,7 @@ SystemState is an application that allows you to monitor your macOS system.
 
 - File > Swift Packages > Add Package Dependency
 - Add `https://gitlab.sibgmbh.com/trio/mac-os/systemstate.git`
-- Select "Up to Next Major" with "0.1.9"
+- Select "Up to Next Major" with "0.1.0"
 
 If you encounter any problem or have a question on adding the package to an Xcode project, I suggest reading the [Adding Package Dependencies](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app) to Your App guide article from Apple.
 
