@@ -14,12 +14,13 @@ macOS system monitor.
 SystemState is an application that allows you to monitor your macOS system.
 
 - [x] CPU utilization
-- [x] GPU utilization
 - [x] Memory usage
-- [x] Disk utilization
-- [x] Network usage
+- [x] Storage utilization
 - [x] Battery level
-- [x] Sensors information (Temperature/Voltage/Power)
+- [x] Sensors information (Temperature, Voltage, Power)
+- [x] Device info (os name, os version, memory type, GPU type, storage type, storage size, ...)
+- [ ] Network usage
+- [ ] GPU utilization
 
 
 ## Installation
