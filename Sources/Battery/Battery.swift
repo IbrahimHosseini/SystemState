@@ -13,7 +13,21 @@ import Module
 
 /// A mudule that get a **Battery** informations.
 /// 
-///  This informations include the ``batteyInfo`` and ``topProcess``.
+/// This informations include the ``batteyInfo`` and ``topProcess``.
+///
+/// ***Battery Info:** show the battery informations.*
+///
+///     - level: show an percentage of battery.
+///     - cycles: shown an interger as count of cycle.
+///     - health: shown an interger number as battery health.
+///
+/// ***Top Process:** show list of process that currently use the battery.*
+///
+///     - pid: an id of application.
+///     - name: the name of application.
+///     - usage: the percebtage of usage.
+///     - icon: the icon of application
+///
 ///
 public class Battery: Module {
     
@@ -24,7 +38,10 @@ public class Battery: Module {
     private var highLevelNotificationState: Bool = false
     private var notificationID: String? = nil
     
+    /// A model that incloude the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
     public var batteyInfo: BatteryInfoModel!
+    
+    /// A list of the top process that currently using battery.
     public var topProcess = [TopProcess]()
     
     public override init() {

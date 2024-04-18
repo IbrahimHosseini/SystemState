@@ -19,7 +19,7 @@ SystemState is an application that allows you to monitor your macOS system.
 - [x] Battery level
 - [x] Sensors information (Temperature, Voltage, Power)
 - [x] Device info (os name, os version, memory type, GPU type, storage type, storage size, ...)
-- [ ] Network usage
+- [X] Network usage
 - [ ] GPU utilization
 
 
@@ -86,6 +86,13 @@ let diskTempreture = sensors.temprator(type)
 let storage = Storage()
 let storageInfo: StorageModel = storage.storageInfo
 let topProcess = storage.topProcess
+
+//================================================================
+
+// Network information
+let network = Network()
+
+
 
 ```
 
@@ -177,5 +184,14 @@ let storageInfo: StorageModel = storage.storageInfo
 let total = storageInfo.total
 let free = storageInfo.free
 let used = storageInfo.used
+ 
+```
+### Network
+ ```swift
+import Network
+
+// Network information
+let network = Network()
+
  
 ```

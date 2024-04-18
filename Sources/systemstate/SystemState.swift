@@ -22,3 +22,7 @@
 #if canImport(Sensors)
 @_exported import Sensors
 #endif
+
+#if canImport(Network)
+@_exported import Network
+#endif
