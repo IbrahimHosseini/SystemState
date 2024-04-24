@@ -11,21 +11,21 @@ import AppKit
 import SystemKit
 import Module
 
-/// A mudule that get a **Battery** informations.
-/// 
-/// This informations include the ``batteyInfo`` and ``topProcess``.
+/// A module that get a **Battery** informations.
+///
+/// This informations include the ``batteryInfo`` and ``topProcess``.
 ///
 /// ***Battery Info:** show the battery informations.*
 ///
 ///     - level: show an percentage of battery.
-///     - cycles: shown an interger as count of cycle.
-///     - health: shown an interger number as battery health.
+///     - cycles: shown an integer as count of cycle.
+///     - health: shown an integer number as battery health.
 ///
 /// ***Top Process:** show list of process that currently use the battery.*
 ///
 ///     - pid: an id of application.
 ///     - name: the name of application.
-///     - usage: the percebtage of usage.
+///     - usage: the percentage of usage.
 ///     - icon: the icon of application
 ///
 ///

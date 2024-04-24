@@ -24,6 +24,7 @@ public enum DeviceInfo {
     /// CPU Model
     public static let cpuName = SystemKit.shared.device.info.cpu?.name ?? "Unknown"
     
+    /// Memory size
     public static let memory: String = {
         let sizeFormatter = ByteCountFormatter()
         sizeFormatter.allowedUnits = [.useGB]

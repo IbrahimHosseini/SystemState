@@ -27,6 +27,8 @@ public class Memory: Module {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
     
+    // MARK: - public functions
+    
     public override init() {
         
         super.init()

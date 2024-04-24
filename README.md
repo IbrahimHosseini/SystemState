@@ -1,8 +1,8 @@
 # SystemState
 
-[![pipeline status](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/pipeline.svg?ignore_skipped=true)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
-[![coverage report](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/coverage.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
-[![Latest Release](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/badges/release.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/releases)
+ [![pipeline status](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/pipeline.svg?ignore_skipped=true)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
+ [![coverage report](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/badges/develop/coverage.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/commits/develop)
+ [![Latest Release](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/badges/release.svg)](https://gitlab.sibgmbh.com/trio/mac-os/systemstate/-/releases)
 
 ![storage](./Assets/storage.png)
 ![memory](./Assets/memory.png)
@@ -38,160 +38,295 @@ If you encounter any problem or have a question on adding the package to an Xcod
 ## Usage
 
 ### systemstate
- ```swift
+```swift
 import systemstate
 
 // CPU information
 let cpu = CPU()
-let cpuLoad: CPULoad = cpu.cpuLoad
-let topProcess = cpu.topProcess
- 
+
+/// - Returns: an object that include the ``CPULoad`` data
+let cpuLoad: CPULoad = cpu.getCPULoad()
+
+/// - Returns: a list of applications that have most used from CPU
+let topProcess = cpu.getTopProcess()
+
+
+/// - Returns: a number that shown temperature and a string that shown readable string
+///     ``Double`` -> 23.0000
+///     ``String`` ==> 23 ℃
+let temperature = cpu.getTemperature()
+
 //================================================================
 
 // Battery information
 let battery = Battery()
-let batteyInfo: BatteryInfoModel = battery.batteyInfo
-let topProcess = battery.topProcess
+
+/// - Returns: a ``BatteryInfoModel`` that include ,
+/// the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
+let batteryInfo: BatteryInfoModel = battery.getBatteryInfo()
+
+/// - Returns: a ``TopProcess`` list of applications that have most use from Battery
+let topProcess = battery.getTopProcess()
 
 //================================================================
 
 // DeviceInfo information
+
+/// mac os name
 let osName = DeviceInfo.osName
+
+/// mac os version
 let osFullVersion = DeviceInfo.osFullVersion
+
+/// CPU Model
 let cpuName = DeviceInfo.cpuName
+
+/// Memory size
 let memory = DeviceInfo.memory
+
+/// GPU model
 let gpu = DeviceInfo.gpu
+
+/// Storage Model
 let storageModel = DeviceInfo.storageModel
+
+/// Storage size
 let storageSize = DeviceInfo.storageSize
+
+/// CPU Uptime
 let uptime = DeviceInfo.uptime
+
+/// CPU uptime with readable format
+let uptimeDayHourMinuteFormat = DeviceInfo.uptimeDayHourMinuteFormat
+
+/// Device serial number
 let serialNumber = DeviceInfo.serialNumber
 
 //================================================================
 
 // Memory information
 let memory = Memory()
-let memoryUsage: MemoryUsage = memory.memoryUsage
-let topProcess = memory.topProcess
+
+/// - Returns: an object the shown memory information. ``MemoryUsage``
+let memoryUsage: MemoryUsage = memory.getMemoryUsage()
+
+/// - Returns: a list of application that most use the memory. 
+let topProcess = memory.getTopProcess()
 
 //================================================================
 
 // Sensors information
 let type: ModuleType = .Storage
 let sensors = Sensors()
-let diskTempreture = sensors.temprator(type)
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let diskTemperature = sensors.getStorageTemperature().0 
+let diskTemperatureWithFormat = sensors.getStorageTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let networkTemperature = sensors.getNetworkTemperature().0 
+let networkTemperatureWithFormat = sensors.getNetworkTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let batteryTemperature = sensors.getBatteryTemperature().0 
+let batteryTemperatureWithFormat = sensors.getBatteryTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let systemTemperature = sensors.getSystemTemperature().0 
+let systemTemperatureWithFormat = sensors.getSystemTemperature().1
 
 //================================================================
 
 // Storage information
 let storage = Storage()
-let storageInfo: StorageModel = storage.storageInfo
-let topProcess = storage.topProcess
+
+/// - Returns: an ``StorageModel`` object that shown storage information.
+let storageInfo: StorageModel = storage.getStorageInfo()
+
+/// - Returns: a list of ``StorageProcess`` that shown which application most use the storage.
+let topProcess = storage.topProcess()
+
+/// - Returns: a readable string format for speed
+let readSpeed = storage.getReadSpeed()
+
+/// - Returns: a readable string format for speed
+let writeSpeed = storage.getWriteSpeed()
 
 //================================================================
 
 // Network information
 let network = Network()
 
+/// - Returns: an object the include the ``NetworkUsage`` information.
+let networkInfo = network.getNetworkInfo()
 
+/// - Return: an object the shown ``NetworkConnectivity`` information
+let connectivity = network.getNetworkConnectivity()
+
+/// - Returns: a number that shown network upload speed
+let uploadSpeed = network.getUploadSpeed()
+
+/// - Returns: a number that shown network download speed
+let downloadSpeed = network.getDownloadSpeed()
+
+/// - Returns: a list of ``NetworkProcess`` that shown which application use most from network.
+let topProcess = network.getTopProcess()
 
 ```
 
 ### CPU
- ```swift
+```swift
 import CPU
 
 // CPU information
 let cpu = CPU()
-let cpuLoad: CPULoad = cpu.cpuLoad
 
-let systemLoad = cpuload.systemLoad
-let userLoad = cpuload.userLoad
-let idleLoad = cpuload.idleLoad
+/// - Returns: an object that include the ``CPULoad`` data
+let cpuLoad: CPULoad = cpu.getCPULoad()
 
-let topProcess = cpu.topProcess
- 
+/// - Returns: a list of applications that have most used from CPU
+let topProcess = cpu.getTopProcess()
+
+
+/// - Returns: a number that shown temperature and a string that shown readable string
+///     ``Double`` -> 23.0000
+///     ``String`` ==> 23 ℃
+let temperature = cpu.getTemperature()
+
 ```
 
 ### Battery
- ```swift
+```swift
 import Battery
 
 // Battery information
 let battery = Battery()
-let batteyInfo: BatteryInfoModel = battery.batteyInfo
 
-let level = batteryInfo.level
-let cycles = batteryInfo.cycles
-let health = batteryInfo.health
+/// - Returns: a ``BatteryInfoModel`` that include  the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
+let batteryInfo: BatteryInfoModel = battery.getBatteryInfo()
 
-let topProcess = battery.topProcess
- 
+/// - Returns: a ``TopProcess`` list of applications that have most use from Battery
+let topProcess = battery.getTopProcess()
+
 ```
 
 ### DeviceInfo
- ```swift
+```swift
 import DeviceInfo
 
-// DeviceInfo information
+/// mac os name
 let osName = DeviceInfo.osName
+
+/// mac os version
 let osFullVersion = DeviceInfo.osFullVersion
+
+/// CPU Model
 let cpuName = DeviceInfo.cpuName
+
+/// Memory size
 let memory = DeviceInfo.memory
+
+/// GPU model
 let gpu = DeviceInfo.gpu
+
+/// Storage Model
 let storageModel = DeviceInfo.storageModel
+
+/// Storage size
 let storageSize = DeviceInfo.storageSize
+
+/// CPU Uptime
 let uptime = DeviceInfo.uptime
+
+/// CPU uptime with readable format
+let uptimeDayHourMinuteFormat = DeviceInfo.uptimeDayHourMinuteFormat
+
+/// Device serial number
 let serialNumber = DeviceInfo.serialNumber
- 
+
 ```
 
 ### Memory
- ```swift
+```swift
 import Memory
 
 // Memory information
 let memory = Memory()
-let memoryUsage: MemoryUsage = memory.memoryUsage
 
-let active = memoryUsage.active
-let inactive = memoryUsage.inactive
-let wired = memoryUsage.wired
-let compressed = memoryUsage.compressed
+/// - Returns: an object the shown memory information. ``MemoryUsage``
+let memoryUsage: MemoryUsage = memory.getMemoryUsage()
 
-let topProcess = memory.topProcess
- 
+/// - Returns: a list of application that most use the memory. 
+let topProcess = memory.getTopProcess()
+
 ```
 
 ### Sensors
- ```swift
+```swift
 import Sensors
 
 // Sensors information
 let type: ModuleType = .Storage
 let sensors = Sensors()
-let diskTempreture = sensors.temprator(type)
- 
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let diskTemperature = sensors.getStorageTemperature().0 
+let diskTemperatureWithFormat = sensors.getStorageTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let networkTemperature = sensors.getNetworkTemperature().0 
+let networkTemperatureWithFormat = sensors.getNetworkTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let batteryTemperature = sensors.getBatteryTemperature().0 
+let batteryTemperatureWithFormat = sensors.getBatteryTemperature().1
+
+/// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+let systemTemperature = sensors.getSystemTemperature().0 
+let systemTemperatureWithFormat = sensors.getSystemTemperature().1
 ```
 
 ### Storage
- ```swift
+```swift
 import Storage
 
 // Storage information
 let storage = Storage()
-let storageInfo: StorageModel = storage.storageInfo
 
-let total = storageInfo.total
-let free = storageInfo.free
-let used = storageInfo.used
- 
+/// - Returns: an ``StorageModel`` object that shown storage information.
+let storageInfo: StorageModel = storage.getStorageInfo()
+
+/// - Returns: a list of ``StorageProcess`` that shown which application most use the storage.
+let topProcess = storage.topProcess()
+
+/// - Returns: a readable string format for speed
+let readSpeed = storage.getReadSpeed()
+
+/// - Returns: a readable string format for speed
+let writeSpeed = storage.getWriteSpeed()
+
 ```
+
 ### Network
- ```swift
+```swift
 import Network
 
 // Network information
 let network = Network()
 
- 
+/// - Returns: an object the include the ``NetworkUsage`` information.
+let networkInfo = network.getNetworkInfo()
+
+/// - Return: an object the shown ``NetworkConnectivity`` information
+let connectivity = network.getNetworkConnectivity()
+
+/// - Returns: a number that shown network upload speed
+let uploadSpeed = network.getUploadSpeed()
+
+/// - Returns: a number that shown network download speed
+let downloadSpeed = network.getDownloadSpeed()
+
+/// - Returns: a list of ``NetworkProcess`` that shown which application use most from network.
+let topProcess = network.getTopProcess()
+
 ```

@@ -10,8 +10,8 @@ import Module
 
 // MARK: - CPU Info
 
-/// A mudule that get a **CPU** informations.
-/// 
+/// A module that get a **CPU** informations.
+///
 ///  This informations include the ``cpuLoad`` and ``topProcess``.
 ///
 public class CPU: Module {
