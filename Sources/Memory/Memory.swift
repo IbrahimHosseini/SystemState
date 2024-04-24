@@ -17,11 +17,9 @@ public class Memory: Module {
  
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
-    
-    private var memoryInfo = ""
-    
-    public var memoryUsage: MemoryUsage!
-    public var topProcess = [TopProcess]()
+        
+    private var memoryUsage: MemoryUsage!
+    private var topProcess = [TopProcess]()
     
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
@@ -60,39 +58,34 @@ public class Memory: Module {
         )
     }
     
-    private func loadCallback(_ raw: MemoryUsage?) {
-        guard let raw else { return }
+    /// System memory info
+    /// - Returns: an object the shown memory information. ``MemoryUsage``
+    public func getMemoryUsage() -> MemoryUsage { memoryUsage }
+    
+    
+    /// Memory top process
+    /// - Returns: a list of application that most use the memory. 
+    public func getTopProcess() -> [TopProcess] { topProcess }
+    
+    // MARK: - private functions
+    
+    private func setMemoryUsage(_ value: MemoryUsage) {
+        memoryUsage = value
+    }
+    
+    private func setTopProcess(_ value: [TopProcess]) {
+        topProcess = value
+    }
 
-        memoryUsage = raw
-        
-        let total: Double = raw.total == 0 ? 1 : raw.total
-        let totalSize = total.readableMemory
-        let app = raw.app.readableMemory
-        let free = raw.free.readableMemory
-        let wired = raw.wired.readableMemory
-        let compressed = raw.compressed.readableMemory
-        let used = raw.used.readableMemory
-        
-        memoryInfo = "Total: \(totalSize) Used: \(used) App=> \(app), wired: \(wired), compressed: \(compressed), free: \(free)"
-        print("""
-              ===================MEMORY====================
-              \(memoryInfo)
-              """)
+    private func loadCallback(_ value: MemoryUsage?) {
+        guard let value else { return }
+
+        setMemoryUsage(value)
     }
     
     private func processCallback(_ lists: [TopProcess]?) {
         guard let lists else { return }
         
-        self.topProcess = lists
-        
-        let mapList = lists.map { $0 }
-        
-        for i in 0..<mapList.count {
-            let process = mapList[i]
-            print("""
-                    +++++ Process list:
-                    process\(i) => id: \(process.pid), name: \(process.name), usage: \(process.usage)%
-                """)
-        }
+        setTopProcess(lists)
     }
 }

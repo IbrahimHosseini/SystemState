@@ -24,7 +24,10 @@ public class Sensors: Module {
         .percentage
     }
     
-    private var tempratures = [SensorService]()
+    private var temperatures = [SensorService]()
+    private var voltages = [SensorService]()
+    
+    // MARK: - public functions
     
     public override init() {
         super.init()
@@ -40,52 +43,68 @@ public class Sensors: Module {
         self.setReaders([self.sensorsReader])
     }
     
+    /// Disk temperature sensor
+    /// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+    public func getStorageTemperature() -> (Double, String) {
+        let value = temperatures.filter { $0.group == .system && $0.name.hasPrefix("Disk") }.first?.value ?? 0
+        return (
+         value,
+         temperature(value)
+        )
+    }
+    
+    /// Network temperature sensor
+    /// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+    public func getNetworkTemperature() -> (Double, String) {
+        let value = temperatures.filter { $0.group == .system && $0.name.hasPrefix("Airport") }.first?.value ?? 0
+        return (
+         value,
+         temperature(value)
+        )
+    }
+    
+    /// Battery temperature sensor
+    /// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+    public func getBatteryTemperature() -> (Double, String) {
+        let battery = temperatures.filter { $0.group == .system && $0.name.hasPrefix("Battery") }
+        
+        let sum = battery.map { $0.value }.reduce(0, { $0 + $1 })
+            
+        let value = sum/Double(battery.count)
+        
+        return (
+         value,
+         temperature(value)
+        )
+    }
+    
+    /// System temperature sensor
+    /// - Returns: a number shown the temperature, and a string that shown the temperature in user friendly format
+    public func getSystemTemperature() -> (Double, String) {
+        let value = temperatures.filter { $0.group == .system && $0.name.hasPrefix("NAND") }.first?.value ?? 0
+        
+        return (
+         value,
+         temperature(value)
+        )
+    }
+    
+    // MARK: - private functions
+    
+    private func setTemperatures(_ value: [SensorService]) {
+        temperatures = value
+    }
+    
+    private func setVoltages(_ value: [SensorService]) {
+        voltages = value
+    }
+    
     private func usageCallback(_ value: SensorsListService?) {
         guard let value else { return }
         
-        tempratures = value.sensors.filter { $0.type == .temperature }
-    }
-    
-    public func temprator( _ type: ModuleType) -> Double? {
-        switch type {
-            
-        case .storage:
-            return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Disk") }.first?.value
-
-        case .network:
-            return tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Airport") }.first?.value
-            
-        case .battery:
-            let battery = tempratures.filter { $0.group == .system && $0.type == .temperature && $0.name.hasPrefix("Battery") }
-            
-            let sum = battery.map { $0.value }.reduce(0, { $0 + $1 })
-                
-            return sum/Double(battery.count)
-            
-        default: return 0
+        setTemperatures(value.sensors.filter { $0.type == .temperature })
         
-        }
-    }
-}
-
-public struct StackModel: KeyValueHelper {
-    public var key: String
-    public var value: String
-    public var additional: Any?
-    
-    var index: Int {
-        get {
-            Store.shared.int(key: "stack_\(self.key)_index", defaultValue: -1)
-        }
-        set {
-            Store.shared.set(key: "stack_\(self.key)_index", value: newValue)
-        }
-    }
-    
-    public init(key: String, value: String, additional: Any? = nil) {
-        self.key = key
-        self.value = value
-        self.additional = additional
+        setVoltages(value.sensors.filter { $0.type == .voltage })
     }
 }
 

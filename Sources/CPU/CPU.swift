@@ -7,6 +7,7 @@
 
 import SystemKit
 import Module
+import Foundation
 
 // MARK: - CPU Info
 
@@ -21,17 +22,16 @@ public class CPU: Module {
     private var frequencyReader: FrequencyReader? = nil
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
+        
+    private var cpuLoad: CPULoad!
+    private var topProcess = [TopProcess]()
+    private var _temperature: Double = 0
     
-    private var cpuInfo: String = ""
-    
-    public var cpuLoad: CPULoad!
-    public var topProcess = [TopProcess]()
-    public var tempreture = ""
-    
+    // MARK: - public functions
     
     public override init() {
         super.init()
-
+        
         self.available = true
         
         // load data
@@ -66,42 +66,48 @@ public class CPU: Module {
         ])
     }
     
+    /// Get CPU information
+    /// - Returns: an object that include the ``CPULoad`` data
+    public func getCPULoad() -> CPULoad { cpuLoad }
+    
+    /// Get top CPU process
+    /// - Returns: a list of applications that have most used from CPU
+    public func getTopProcess() -> [TopProcess] { topProcess }
+    
+    /// Get the CPU temperature
+    /// - Returns: a number that shown temperature and a string that shown readable string
+    ///     ``Double`` -> 23.0000
+    ///     ``String`` ==> 23 ℃
+    public func getTemperature() -> (Double, String) { (_temperature, getReadableTemperature()) }
+    
+    /// Get the CPU temperature
+    /// - Returns: a string that readable by user
+    public func getReadableTemperature() -> String { temperature(_temperature) }
+    
+    // MARK: - private functions
+    
+    private func setTemperature(_ value: Double) { _temperature = value }
+    
+    private func setTopProcess(_ value: [TopProcess]) { topProcess = value }
+    
+    private func setCPULoad(_ value: CPULoad) { cpuLoad = value }
+    
     private func loadCallback(_ value: CPULoad?) {
         guard let value else { return }
         
-        cpuLoad = value
-        
-        let systemPercent = value.systemLoad.showAsPercent
-        let userPercent = value.userLoad.showAsPercent
-        let idlePercent = value.idleLoad.showAsPercent
-        
-        cpuInfo = "system: \(systemPercent), user: \(userPercent), idle: \(idlePercent)"
-        print("""
-        =====================CPU======================
-        \(cpuInfo)
-        """)
+        setCPULoad(value)
     }
     
     private func process(_ lists: [TopProcess]?) {
         guard let lists else { return }
         
-        topProcess = lists
-        
-        let mapList = lists.map { $0 }
-        
-        for i in 0..<mapList.count {
-            let process = mapList[i]
-            print("""
-                    Process list:
-                    process\(i) => id: \(process.pid), name: \(process.name), usage: \(process.usage)%
-                """)
-        }
+        setTopProcess(lists)
     }
     
     private func temperatureCallback(_ value: Double?) {
         guard let value else { return }
-        print("CPU Tempreture=> \(temperature(value))")
-        self.tempreture = temperature(value)
+        
+        setTemperature(value)
     }
 }
 

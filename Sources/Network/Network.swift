@@ -9,11 +9,17 @@ import SystemKit
 import Module
 import SystemConfiguration
 import Foundation
+import Common
 
 public class Network: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     private var connectivityReader: ConnectivityReader? = nil
+    
+    private var processesInitialized: Bool = false
+    private var base: StorageSizeBase {
+        StorageSizeBase(rawValue: Store.shared.string(key: "Network_base", defaultValue: "byte")) ?? .byte
+    }
     
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
     private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
@@ -24,6 +30,14 @@ public class Network: Module {
     private var publicIPRefreshInterval: String {
         Store.shared.string(key: "\(self.name)_publicIPRefreshInterval", defaultValue: "never")
     }
+    
+    private var networkUsage: NetworkUsage!
+    private var networkConnectivity: NetworkConnectivity!
+    private var topProcess = [NetworkProcess]()
+    private var uploadSpeed: Int64 = 0
+    private var downloadSpeed: Int64 = 0
+    
+    // MARK: - public functions
     
     public override init() {
         
@@ -36,36 +50,21 @@ public class Network: Module {
         }
         self.processReader = ProcessReader(.network) { [weak self] value in
             if let list = value {
-//                self?.popupView.processCallback(list)
+                self?.processCallback(list)
             }
         }
         self.connectivityReader = ConnectivityReader(.network) { [weak self] value in
             self?.connectivityCallback(value)
         }
         
-        /*self.settingsView.callbackWhenUpdateNumberOfProcesses = {
-            self.popupView.numberOfProcessesUpdated()
-            DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
-            }
+        self.numberOfProcessesUpdated()
+        
+        DispatchQueue.global(qos: .background).async {
+            self.processReader?.read()
         }
         
-        self.settingsView.callback = { [weak self] in
-            self?.usageReader?.getDetails()
-            self?.usageReader?.read()
-        }
-        self.settingsView.usageResetCallback = { [weak self] in
-            self?.setUsageReset()
-        }
-        self.settingsView.ICMPHostCallback = { [weak self] isDisabled in
-            if isDisabled {
-                self?.popupView.resetConnectivityView()
-                self?.connectivityCallback(Network_Connectivity(status: false))
-            }
-        }
-        self.settingsView.publicIPRefreshIntervalCallback = { [weak self] in
-            self?.setIPUpdater()
-        }*/
+        self.usageReader?.getDetails()
+        self.usageReader?.read()
         
         self.setReaders([self.usageReader, self.processReader, self.connectivityReader])
         
@@ -83,39 +82,76 @@ public class Network: Module {
         return !list.isEmpty
     }
     
-    private func usageCallback(_ value: NetworkUsage?) {
-        guard let value else { return }
+    /// System network information
+    /// - Returns: an object the include the ``NetworkUsage`` information.
+    public func getNetworkInfo() -> NetworkUsage { networkUsage }
+    
+    /// Network connection state
+    /// - Returns: an object the shown ``NetworkConnectivity`` information
+    public func getNetworkConnectivity() -> NetworkConnectivity { networkConnectivity }
+    
+    /// Network upload speed
+    /// - Returns: a number that shown network upload speed
+    public func getUploadSpeed() -> Int64 { uploadSpeed }
+    
+    /// Network download speed
+    /// - Returns: a number that shown network download speed
+    public func getDownloadSpeed() -> Int64 { downloadSpeed }
+    
+    /// Network top process
+    /// - Returns: a list of ``NetworkProcess`` that shown which application use most from network.
+    public func getTopProcess() -> [NetworkProcess] { topProcess }
+    
+    // MARK: - private functions
+    
+    private func setNetworkInfo(_ value: NetworkUsage) { networkUsage = value }
+    
+    private func setNetworkConnectivity(_ value: NetworkConnectivity) { networkConnectivity = value }
+    
+    private func setUploadSpeed(_ value: Int64) { uploadSpeed = value }
+    
+    private func setDownloadSpeed(_ value: Int64) { downloadSpeed = value }
+    
+    private func setTopProcess(_ value: [NetworkProcess]) { topProcess = value }
+    
+    private func numberOfProcessesUpdated() {
+        self.processesInitialized = false
+    }
+    
+    private func processCallback(_ list: [NetworkProcess]) {
+        if processesInitialized { return }
         
-//        self.popupView.usageCallback(value)
-//        self.portalView.usageCallback(value)
+        setTopProcess(list)
         
-        var upload: Int64 = 0
-        var download: Int64 = 0
-        if value.bandwidth.upload >= self.widgetActivationThreshold || value.bandwidth.download >= self.widgetActivationThreshold {
-            upload = value.bandwidth.upload
-            download = value.bandwidth.download
+        let list = list.map{ $0 }
+        
+        for i in 0..<list.count {
+            let process = list[i]
+            let _ = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base)
+            let _ = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base)
         }
         
-//        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
-//            switch w.item {
-//            case let widget as SpeedWidget: widget.setValue(upload: upload, download: download)
-//            case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
-//            default: break
-//            }
-//        }
+        self.processesInitialized = true
+    }
+    
+    private func usageCallback(_ value: NetworkUsage?) {
+        guard let value else { return }
+
+        setNetworkInfo(value)
+        
+        // implement the upload and download speed
+        if value.bandwidth.upload >= self.widgetActivationThreshold || value.bandwidth.download >= self.widgetActivationThreshold {
+            
+            setUploadSpeed(value.bandwidth.upload)
+            
+            setDownloadSpeed(value.bandwidth.download)
+        }
     }
     
     private func connectivityCallback(_ value: NetworkConnectivity?) {
         guard let value else { return }
         
-//        self.popupView.connectivityCallback(value)
-        
-//        self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: Widget) in
-//            switch w.item {
-//            case let widget as StateWidget: widget.setValue(value.status)
-//            default: break
-//            }
-//        }
+        setNetworkConnectivity(value)
     }
     
     private func setIPUpdater() {
@@ -144,14 +180,6 @@ public class Network: Module {
     
     private func setUsageReset() {
         self.usageReseter.invalidate()
-        
-//        switch AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.atStart.rawValue)) {
-//        case .oncePerDay: self.usageReseter.interval = 60 * 60 * 24
-//        case .oncePerWeek: self.usageReseter.interval = 60 * 60 * 24 * 7
-//        case .oncePerMonth: self.usageReseter.interval = 60 * 60 * 24 * 30
-//        case .never, .atStart: return
-//        default: return
-//        }
         
         self.usageReseter.repeats = true
         self.usageReseter.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in

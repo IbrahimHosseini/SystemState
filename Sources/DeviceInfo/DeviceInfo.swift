@@ -78,6 +78,7 @@ public enum DeviceInfo {
         return value
     }()
     
+    /// GPU model
     public static let gpu: String = {
         var value = ""
         if let gpus = SystemKit.shared.device.info.gpu {

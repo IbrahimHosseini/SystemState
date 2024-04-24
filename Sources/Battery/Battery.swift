@@ -38,11 +38,13 @@ public class Battery: Module {
     private var highLevelNotificationState: Bool = false
     private var notificationID: String? = nil
     
-    /// A model that incloude the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
-    public var batteyInfo: BatteryInfoModel!
+    /// A model that include the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
+    private var batteryInfo: BatteryInfoModel!
     
-    /// A list of the top process that currently using battery.
-    public var topProcess = [TopProcess]()
+    /// A list of the top process that currently used the  battery.
+    private var topProcess = [TopProcess]()
+    
+    // MARK: - Public functions
     
     public override init() {
         
@@ -65,24 +67,46 @@ public class Battery: Module {
         self.setReaders([self.usageReader, self.processReader])
     }
     
+    /// A list of the top process that currently used the  battery.
+    /// - Returns: a ``TopProcess`` list of applications that have most use from Battery
+    public func getTopProcess() -> [TopProcess] { topProcess }
+    
+    /// Get the battery information
+    /// - Returns: a ``BatteryInfoModel`` that include,
+    ///   the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
+    public func getBatteryInfo() -> BatteryInfoModel { batteryInfo }
+    
     public override func isAvailable() -> Bool {
         let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
         return !sources.isEmpty
     }
     
-    private func usageCallback(_ value: BatteryUsage?) {
-        guard let value else { return }
-        
-        batteyInfo = BatteryInfoModel(
+    // MARK: - Private functions
+    
+    private func setBatteryInfo(_ value: BatteryUsage) {
+        batteryInfo = BatteryInfoModel(
             level: value.level,
             cycles: value.cycles,
-            health: value.health
+            health: value.health,
+            isCharging: value.isCharging,
+            isBatteryPowered: value.isBatteryPowered,
+            temperature: value.temperature
         )
     }
     
+    private func setTopProcess(_ value: [TopProcess]) {
+        topProcess = value
+    }
+    
+    private func usageCallback(_ value: BatteryUsage?) {
+        guard let value else { return }
+        
+        setBatteryInfo(value)
+    }
+    
     private func processCallback(_ list: [TopProcess]) {
-        self.topProcess = list
+        setTopProcess(list)
     }
 
 }

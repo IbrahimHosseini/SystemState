@@ -11,4 +11,7 @@ public struct BatteryInfoModel {
     public let level: Double
     public let cycles: Int
     public let health: Int
+    public let isCharging: Bool
+    public let isBatteryPowered: Bool
+    public let temperature: Double
 }

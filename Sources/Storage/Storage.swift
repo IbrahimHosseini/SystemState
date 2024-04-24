@@ -21,9 +21,14 @@ public class Storage: Module {
     
     private var selectedDisk: String = ""
     
-    public var storageInfo: StorageModel!
-    public var topProcess = [StorageProcess]()
+    private var storageInfo: StorageModel!
+    private var readSpeed: String = ""
+    private var writeSpeed: String = ""
     
+    private var topProcess = [StorageProcess]()
+    
+    
+    // MARK: - public function
     public override init() {
         super.init()
         guard self.available else { return }
@@ -59,47 +64,67 @@ public class Storage: Module {
         self.setReaders([self.capacityReader, self.activityReader, self.processReader])
     }
     
-    private func capacityCallback(_ value: Storages) {
+    /// System storage information
+    /// - Returns: an ``StorageModel`` object that shown storage information.
+    public func getStorageInfo() -> StorageModel { storageInfo }
+    
+    /// Storage top process
+    /// - Returns: a list of ``StorageProcess`` that shown which application most use the storage.
+    public func getTopProcess() -> [StorageProcess] { topProcess }
+    
+    /// Storage read speed
+    /// - Returns: a readable string format for speed
+    public func getReadSpeed() -> String { readSpeed }
+    
+    /// Storage write speed
+    /// - Returns: a readable string format for speed
+    public func getWriteSpeed() -> String { writeSpeed }
+    
+    // MARK: - private functions
+    
+    private func setStorageInfo(_ value: Storages) {
         
-        guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
+        guard let disk = value.first(where: { $0.root }) else {
             return
         }
         
         storageInfo = StorageModel(
-            total: d.size,
-            free: d.free,
-            used: d.size - d.free
+            total: disk.size,
+            free: disk.free,
+            used: disk.size - disk.free
         )
+    }
+    
+    private func setTopProcess(_ value: [StorageProcess]) {
+        topProcess = value
+    }
+    
+    private func setReadSpeedWithFormat(_ value: StorageProcess) {
+        readSpeed = Units(bytes: Int64(value.read)).getReadableSpeed(base: value.base)
+    }
+    
+    private func setWriteSpeedWithFormat(_ value: StorageProcess) {
+        writeSpeed = Units(bytes: Int64(value.write)).getReadableSpeed(base: value.base)
+    }
+    
+    private func capacityCallback(_ value: Storages) {
+        setStorageInfo(value)
     }
     
 }
 
 extension Storage {
-    internal func processCallback(_ list: [StorageProcess]) {
+    internal func processCallback(_ lists: [StorageProcess]) {
         
-        topProcess = list
-        
-        let list = list.map{ $0 }
-        
-        for i in 0..<list.count {
-            let process = list[i]
-            let write = Units(bytes: Int64(process.write)).getReadableSpeed(base: process.base)
-            let read = Units(bytes: Int64(process.read)).getReadableSpeed(base: process.base)
-//            self.processes?.set(i, process, [read, write])
-            
-            print("""
-                    +++++ Process list:
-                    id: \(i), name: \(process), Read\(read) =>  Write: \(write)%
-                """)
+        setTopProcess(lists)
+                
+        for list in lists {
+            setReadSpeedWithFormat(list)
+            setWriteSpeedWithFormat(list)
         }
     }
     
     internal func activityCallback(_ value: Storages) {
 
-//        value.reversed().forEach { (DriveModel: drive) in
-//            if let view = views.first(where: { $0.name == drive.mediaName }) {
-//                view.updateReadWrite(read: drive.activity.read, write: drive.activity.write)
-//            }
-//        }
     }
 }
