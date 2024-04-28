@@ -1,5 +1,5 @@
 //
-//  Network.swift
+//  NetworkInfo.swift
 //
 //
 //  Created by Ibrahim on 4/18/24.
@@ -11,7 +11,7 @@ import SystemConfiguration
 import Foundation
 import Common
 
-public class Network: Module {
+public class NetworkInfo: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     private var connectivityReader: ConnectivityReader? = nil

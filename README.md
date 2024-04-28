@@ -155,7 +155,7 @@ let writeSpeed = storage.getWriteSpeed()
 //================================================================
 
 // Network information
-let network = Network()
+let network = NetworkInfo()
 
 /// - Returns: an object the include the ``NetworkUsage`` information.
 let networkInfo = network.getNetworkInfo()
@@ -309,10 +309,10 @@ let writeSpeed = storage.getWriteSpeed()
 
 ### Network
 ```swift
-import Network
+import NetworkInfo
 
 // Network information
-let network = Network()
+let network = NetworkInfo()
 
 /// - Returns: an object the include the ``NetworkUsage`` information.
 let networkInfo = network.getNetworkInfo()

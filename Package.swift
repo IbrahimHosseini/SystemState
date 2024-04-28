@@ -24,7 +24,7 @@ let package = Package(
                 "Battery",
                 "DeviceInfo",
                 "Sensors",
-                "Network",
+                "NetworkInfo",
             ],
             path: "Sources/systemstate"
         ),
@@ -62,7 +62,7 @@ let package = Package(
         
         // MARK: - Network
         .target(
-            name: "Network",
+            name: "NetworkInfo",
             dependencies: ["SystemKit", "Module"],
             path: "Sources/Network"
         ),

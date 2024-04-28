@@ -23,6 +23,6 @@
 @_exported import Sensors
 #endif
 
-#if canImport(Network)
-@_exported import Network
+#if canImport(NetworkInfo)
+@_exported import NetworkInfo
 #endif
