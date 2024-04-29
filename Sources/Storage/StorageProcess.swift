@@ -27,8 +27,8 @@ public struct StorageProcess: ProcessService, Codable {
         return Constants.defaultProcessIcon
     }
     
-    var read: Int
-    var write: Int
+    public var read: Int
+    public var write: Int
     
     init(pid: Int, name: String, read: Int, write: Int) {
         self.pid = pid
