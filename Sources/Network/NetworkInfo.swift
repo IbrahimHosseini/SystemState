@@ -31,8 +31,8 @@ public class NetworkInfo: Module {
         Store.shared.string(key: "\(self.name)_publicIPRefreshInterval", defaultValue: "never")
     }
     
-    private var networkUsage: NetworkUsage!
-    private var networkConnectivity: NetworkConnectivity!
+    private var networkUsage: NetworkUsage?
+    private var networkConnectivity: NetworkConnectivity?
     private var topProcess = [NetworkProcess]()
     private var uploadSpeed: Int64 = 0
     private var downloadSpeed: Int64 = 0
@@ -84,11 +84,11 @@ public class NetworkInfo: Module {
     
     /// System network information
     /// - Returns: an object the include the ``NetworkUsage`` information.
-    public func getNetworkInfo() -> NetworkUsage { networkUsage }
+    public func getNetworkInfo() -> NetworkUsage? { networkUsage }
     
     /// Network connection state
     /// - Returns: an object the shown ``NetworkConnectivity`` information
-    public func getNetworkConnectivity() -> NetworkConnectivity { networkConnectivity }
+    public func getNetworkConnectivity() -> NetworkConnectivity? { networkConnectivity }
     
     /// Network upload speed
     /// - Returns: a number that shown network upload speed

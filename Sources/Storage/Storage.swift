@@ -21,7 +21,7 @@ public class Storage: Module {
     
     private var selectedDisk: String = ""
     
-    private var storageInfo: StorageModel!
+    private var storageInfo: StorageModel?
     private var readSpeed: String = ""
     private var writeSpeed: String = ""
     
@@ -66,7 +66,7 @@ public class Storage: Module {
     
     /// System storage information
     /// - Returns: an ``StorageModel`` object that shown storage information.
-    public func getStorageInfo() -> StorageModel { storageInfo }
+    public func getStorageInfo() -> StorageModel? { storageInfo }
     
     /// Storage top process
     /// - Returns: a list of ``StorageProcess`` that shown which application most use the storage.

@@ -23,7 +23,7 @@ public class CPU: Module {
     private var limitReader: LimitReader? = nil
     private var averageReader: AverageReader? = nil
         
-    private var cpuLoad: CPULoad!
+    private var cpuLoad: CPULoad?
     private var topProcess = [TopProcess]()
     private var _temperature: Double = 0
     
@@ -68,7 +68,7 @@ public class CPU: Module {
     
     /// Get CPU information
     /// - Returns: an object that include the ``CPULoad`` data
-    public func getCPULoad() -> CPULoad { cpuLoad }
+    public func getCPULoad() -> CPULoad? { cpuLoad }
     
     /// Get top CPU process
     /// - Returns: a list of applications that have most used from CPU

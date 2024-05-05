@@ -18,7 +18,7 @@ public class Memory: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
         
-    private var memoryUsage: MemoryUsage!
+    private var memoryUsage: MemoryUsage?
     private var topProcess = [TopProcess]()
     
     private var splitValueState: Bool {
@@ -60,7 +60,7 @@ public class Memory: Module {
     
     /// System memory info
     /// - Returns: an object the shown memory information. ``MemoryUsage``
-    public func getMemoryUsage() -> MemoryUsage { memoryUsage }
+    public func getMemoryUsage() -> MemoryUsage? { memoryUsage }
     
     
     /// Memory top process
