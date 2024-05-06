@@ -32,13 +32,6 @@ public class Memory: Module {
         super.init()
         guard self.available else { return }
         
-        self.usageReader?.read()
-        
-        self.processReader?.read()
-        self.usageReader?.setInterval(1)
-        
-        self.processReader?.setInterval(1)
-        
         self.usageReader = UsageReader(.Memory) { [weak self] value in
             self?.loadCallback(value)
         }
@@ -48,7 +41,13 @@ public class Memory: Module {
             }
         }
         
-        self.processReader?.read()
+        self.usageReader?.setInterval(1)
+        self.processReader?.setInterval(1)
+        self.usageReader?.read()
+        
+        DispatchQueue.global(qos: .background).async {            
+            self.processReader?.read()
+        }
         
         self.setReaders(
             [

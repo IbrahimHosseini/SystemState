@@ -38,11 +38,13 @@ public class Storage: Module {
                 self?.capacityCallback(value)
             }
         }
+        
         self.activityReader = ActivityReader(.storage) { [weak self] value in
             if let value {
                 self?.activityCallback(value)
             }
         }
+        
         self.processReader = ProcessReader(.storage) { [weak self] value in
             if let list = value {
                 self?.processCallback(list)
@@ -52,11 +54,8 @@ public class Storage: Module {
         self.selectedDisk = Store.shared.string(key: "\(ModuleType.storage.rawValue)_disk", defaultValue: self.selectedDisk)
         
         self.capacityReader?.read()
-        
-        self.capacityReader?.read()
-        
         self.capacityReader?.setInterval(1)
-        
+
         DispatchQueue.global(qos: .background).async {
             self.processReader?.read()
         }

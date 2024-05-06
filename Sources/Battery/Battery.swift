@@ -60,9 +60,10 @@ public class Battery: Module {
             }
         }
         
-        self.usageReader?.read()
-
-        self.processReader?.read()
+        DispatchQueue.global(qos: .background).async {
+            self.usageReader?.read()
+            self.processReader?.read()
+        }
         
         self.setReaders([self.usageReader, self.processReader])
     }

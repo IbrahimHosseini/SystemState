@@ -59,12 +59,13 @@ public class NetworkInfo: Module {
         
         self.numberOfProcessesUpdated()
         
+        self.usageReader?.read()
+        
         DispatchQueue.global(qos: .background).async {
             self.processReader?.read()
         }
         
         self.usageReader?.getDetails()
-        self.usageReader?.read()
         
         self.setReaders([self.usageReader, self.processReader, self.connectivityReader])
         
