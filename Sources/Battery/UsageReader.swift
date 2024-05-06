@@ -20,6 +20,10 @@ internal class UsageReader: Reader<BatteryUsage> {
     
     internal override func start() {
         self.active = true
+        
+        // Comment this section due to app crashing in our app
+        
+        /*
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
         self.source = IOPSNotificationCreateRunLoopSource({ (context) in
@@ -35,7 +39,7 @@ internal class UsageReader: Reader<BatteryUsage> {
         
         self.loop = RunLoop.current.getCFRunLoop()
         CFRunLoopAddSource(self.loop, source, .defaultMode)
-        
+        */
         self.read()
     }
     

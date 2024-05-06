@@ -39,7 +39,7 @@ public class Battery: Module {
     private var notificationID: String? = nil
     
     /// A model that include the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
-    private var batteryInfo: BatteryInfoModel!
+    private var batteryInfo: BatteryInfoModel?
     
     /// A list of the top process that currently used the  battery.
     private var topProcess = [TopProcess]()
@@ -75,7 +75,7 @@ public class Battery: Module {
     /// Get the battery information
     /// - Returns: a ``BatteryInfoModel`` that include,
     ///   the ``BatteryInfoModel/level``, ``BatteryInfoModel/cycles``, and ``BatteryInfoModel/health``.
-    public func getBatteryInfo() -> BatteryInfoModel { batteryInfo }
+    public func getBatteryInfo() -> BatteryInfoModel? { batteryInfo }
     
     public override func isAvailable() -> Bool {
         let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
