@@ -9,11 +9,7 @@ import Foundation
 
 public class Storages: Codable {
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Disk.SynchronizedArray")
-    private var _array: [DriveModel] = []
-    public var array: [DriveModel] {
-        get { self.queue.sync { self._array } }
-        set { self.queue.sync { self._array = newValue } }
-    }
+    public var array: [DriveModel] = []
     
     enum CodingKeys: String, CodingKey {
         case array

@@ -25,7 +25,7 @@ public enum ModuleType: Int {
         case .CPU: return "CPU"
         case .Memory: return "Memory"
         case .GPU: return "GPU"
-        case .storage: return "Storage"
+        case .storage: return "Disk"
         case .sensors: return "Sensors"
         case .network: return "Network"
         case .battery: return "Battery"

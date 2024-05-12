@@ -22,7 +22,7 @@ internal class ProcessReader: Reader<[StorageProcess]> {
     }
     
     private var numberOfProcesses: Int {
-        Store.shared.int(key: "\(ModuleType.storage.rawValue)_processes", defaultValue: 5)
+        Store.shared.int(key: "\(ModuleType.storage.rawValue)_processes", defaultValue: 10)
     }
     
     public override func setup() {

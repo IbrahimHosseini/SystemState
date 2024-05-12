@@ -9,13 +9,13 @@ import Cocoa
 import SystemKit
 import Module
 
-/// A mudule that get a **Storage(Disk)** informations.
+/// A module that get a **Storage(Disk)** informations.
 ///
 ///  This informations include the ``storageInfo`` and ``topProcess``.
 ///
 public class Storage: Module {
     
-    private var capacityReader: StorageReader?
+    private var storageReader: StorageReader?
     private var activityReader: ActivityReader?
     private var processReader: ProcessReader?
     
@@ -27,40 +27,44 @@ public class Storage: Module {
     
     private var topProcess = [StorageProcess]()
     
-    
     // MARK: - public function
     public override init() {
         super.init()
-        guard self.available else { return }
         
-        self.capacityReader = StorageReader(.storage) { [weak self] value in
+        self.available = true
+        
+        self.storageReader = StorageReader(.storage) { [weak self] value in
             if let value {
-                self?.capacityCallback(value)
+                self?.storageCallback(value)
             }
         }
         
         self.activityReader = ActivityReader(.storage) { [weak self] value in
-            if let value {
-                self?.activityCallback(value)
-            }
+            self?.activityCallback(value)
         }
         
         self.processReader = ProcessReader(.storage) { [weak self] value in
-            if let list = value {
-                self?.processCallback(list)
+            if let value {
+                self?.process(value)
             }
         }
         
         self.selectedDisk = Store.shared.string(key: "\(ModuleType.storage.rawValue)_disk", defaultValue: self.selectedDisk)
+                
+        self.storageReader?.read()
         
-        self.capacityReader?.read()
-        self.capacityReader?.setInterval(1)
-
+        self.activityReader?.read()
         DispatchQueue.global(qos: .background).async {
             self.processReader?.read()
         }
         
-        self.setReaders([self.capacityReader, self.activityReader, self.processReader])
+        self.setReaders(
+            [
+                self.storageReader,
+                self.activityReader,
+                self.processReader
+            ]
+        )
     }
     
     /// System storage information
@@ -94,9 +98,7 @@ public class Storage: Module {
         )
     }
     
-    private func setTopProcess(_ value: [StorageProcess]) {
-        topProcess = value
-    }
+    private func setTopProcess(_ value: [StorageProcess]) { topProcess = value }
     
     private func setReadSpeedWithFormat(_ value: StorageProcess) {
         readSpeed = Units(bytes: Int64(value.read)).getReadableSpeed(base: value.base)
@@ -106,24 +108,26 @@ public class Storage: Module {
         writeSpeed = Units(bytes: Int64(value.write)).getReadableSpeed(base: value.base)
     }
     
-    private func capacityCallback(_ value: Storages) {
+    private func storageCallback(_ value: Storages) {
         setStorageInfo(value)
     }
     
-}
-
-extension Storage {
-    internal func processCallback(_ lists: [StorageProcess]) {
+    private func process(_ lists: [StorageProcess]) {
         
-        setTopProcess(lists)
-                
-        for list in lists {
-            setReadSpeedWithFormat(list)
-            setWriteSpeedWithFormat(list)
+        DispatchQueue.main.async { [weak self] in
+                    
+            self?.setTopProcess(lists)
+            
+            for process in lists {
+                self?.setReadSpeedWithFormat(process)
+                self?.setWriteSpeedWithFormat(process)
+            }
         }
     }
     
-    internal func activityCallback(_ value: Storages) {
-
+    private func activityCallback(_ value: Storages?) {
+        guard let value else { return }
+        
     }
+    
 }
