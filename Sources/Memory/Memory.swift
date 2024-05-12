@@ -45,9 +45,8 @@ public class Memory: Module {
         self.processReader?.setInterval(1)
         self.usageReader?.read()
         
-        DispatchQueue.global(qos: .background).async {            
-            self.processReader?.read()
-        }
+        self.processReader?.read()
+        
         
         self.setReaders(
             [
