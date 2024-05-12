@@ -47,24 +47,23 @@ public class CPU: Module {
             self?.temperatureCallback(value)
         }
         
-        DispatchQueue.global(qos: .background).async {
-            self.processReader?.read()
-        }
-        
         self.loadReader?.read()
         self.temperatureReader?.read()
+        self.processReader?.read()
         
         self.loadReader?.setInterval(1)
         self.processReader?.setInterval(1)
         
-        self.setReaders([
-            self.loadReader,
-            self.processReader,
-            self.temperatureReader,
-            self.frequencyReader,
-            self.limitReader,
-            self.averageReader
-        ])
+        self.setReaders(
+            [
+                self.loadReader,
+                self.processReader,
+                self.temperatureReader,
+                self.frequencyReader,
+                self.limitReader,
+                self.averageReader
+            ]
+        )
     }
     
     /// Get CPU information
